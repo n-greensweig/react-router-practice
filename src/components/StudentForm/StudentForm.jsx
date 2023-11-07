@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 function StudentForm() {
-    
-    const [student, setStudent] = useState('');
 
+    const [student, setStudent] = useState('');
+    const history = useHistory();
 
     // Called when the submit button is pressed
     const addStudent = (newStudent) => {
@@ -13,8 +13,9 @@ function StudentForm() {
         axios({
             method: 'POST',
             url: '/students',
-            data: {github_name: newStudent}
+            data: { github_name: newStudent }
         }).then((response) => {
+            history.push('/allStudents')
             console.log(response);
         }).catch((err) => {
             console.log(err);
@@ -36,13 +37,13 @@ function StudentForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input onChange={(event) => setStudent(event.target.value)} 
-                    placeholder="GitHub username"
-                    value={student} />
+            <input onChange={(event) => setStudent(event.target.value)}
+                placeholder="GitHub username"
+                value={student} />
             <input type="submit" value="Submit" />
         </form>
     );
-    
+
 }
 
 
